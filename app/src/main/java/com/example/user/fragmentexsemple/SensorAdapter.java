@@ -4,8 +4,11 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,26 +43,18 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     final Sensor sensor=sensors.get(i);
     String[] finalSensorName = sensors.get(i).getName().toString().split(" ");
     viewHolder.name.setText("Name: " + finalSensorName[1]);
-        viewHolder.type.setText("Type: " + String.valueOf(sensor.getType()));
-        viewHolder.vendor.setText("Vendor: " + String.valueOf(sensor.getVendor()));
-        viewHolder.version.setText("Version: " + String.valueOf(sensor.getVersion()));
-        viewHolder.max.setText("Maximum: " + String.valueOf( sensor.getMaximumRange()));
+    viewHolder.power.setText("Power: " + String.valueOf(sensor.getPower()));
+    viewHolder.max.setText("Maximum: " + String.valueOf( sensor.getMaximumRange()));
+    viewHolder.resolution.setText("Resolition: " + String.valueOf(sensor.getResolution()));
+    viewHolder.mMinDelay.setText("mMinDelay: " +String.valueOf(sensor.getMinDelay()));
 
-//        viewHolder.name.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                 Intent intent=new Intent(mContext, GrafActivity.class);
-//                 Integer i=sensor.getType();
-////              String s= String.valueOf(sensor.getType());
-//                    intent.putExtra("sensortype",sensor.getType());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            viewHolder.mMinDelay.setText("mMinDelay: " +String.valueOf(sensor.getFifoReservedEventCount()));
+        }
+
+
+        // viewHolder.ed.setText("Ed" +String.valueOf("M/c^2"));
 //
-//                StringBuilder sb = new StringBuilder();
-//
-//                mContext.startActivity(intent);
-//            }
-//        });
-
-
     }
 
     @Override
@@ -73,36 +68,47 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         TextView name;
         TextView type;
         TextView vendor;
-        TextView version;
         TextView max;
         TextView resolution;
         TextView textViewX;
+        TextView ed;
+        TextView power;
+
+        TextView mMinDelay;
 
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name=(TextView) itemView.findViewById(R.id.name);
-            type=(TextView) itemView.findViewById(R.id.type);
-            vendor=(TextView)itemView.findViewById(R.id.vendor);
-            version=(TextView) itemView.findViewById(R.id.version);
+            //vendor=(TextView)itemView.findViewById(R.id.vendor);
+            mMinDelay =(TextView) itemView.findViewById(R.id.mMinDelay);
             max=(TextView) itemView.findViewById(R.id.max);
             resolution=(TextView) itemView.findViewById(R.id.resolution);
+            power=(TextView) itemView.findViewById(R.id.power);
+
 
         }
 
+//        @Override
+//        public void onSensorChanged(SensorEvent event) {
+//            float[] values = event.values;
+//            switch (event.sensor.getType()) {
+//                case Sensor.TYPE_ACCELEROMETER: {
+//                    //собственно выводим все полученые параметры в текствьюшки наши
+//                    textViewX.setText("ttt");
+////                mYValueText.setText(String.format("%1.3f", event.values[SensorManager.DATA_Y]));
+////                mZValueText.setText(String.format("%1.3f", event.values[SensorManager.DATA_Z]));
+//                }
+//                break;
+//            }
+//        }
+//
+
+
         @Override
         public void onSensorChanged(SensorEvent event) {
-            float[] values = event.values;
-            switch (event.sensor.getType()) {
-                case Sensor.TYPE_ACCELEROMETER: {
-                    //собственно выводим все полученые параметры в текствьюшки наши
-                    textViewX.setText("ttt");
-//                mYValueText.setText(String.format("%1.3f", event.values[SensorManager.DATA_Y]));
-//                mZValueText.setText(String.format("%1.3f", event.values[SensorManager.DATA_Z]));
-                }
-                break;
-            }
+
         }
 
         @Override
