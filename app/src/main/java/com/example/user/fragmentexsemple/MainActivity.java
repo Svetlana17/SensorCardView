@@ -141,7 +141,7 @@ SensorManager sensorManager;
         sb.setLength(0);
         sb.append("Акселерометр: " + format(valuesAccel) +  "  m/s^2")
 
-                .append("\nГироскоп : " + format(valuesGiroscope) + "rad/s" );
+                .append("\nГироскоп : " + format(valuesGiroscope) + "  rad/s" );
 
 
       tvText.setText(sb);
